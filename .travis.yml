@@ -27,7 +27,9 @@ notifications:
     on_failure: change
 before_deploy:
   - cargo build --target $TARGET --release
-  - zip "tomlsort-${TRAVIS_TAG}-${TARGET}.zip" "target/${TARGET}/release/tomlsort"
+  - mkdir "tomlsort-${TRAVIS_TAG}-${TARGET}"
+  - cp "target/${TARGET}/release/tomlsort" "tomlsort-${TRAVIS_TAG}-${TARGET}"
+  - zip "tomlsort-${TRAVIS_TAG}-${TARGET}.zip" -r "tomlsort-${TRAVIS_TAG}-${TARGET}"
 deploy:
   provider: releases
   api_key:
