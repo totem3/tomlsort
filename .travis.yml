@@ -27,14 +27,12 @@ notifications:
     on_failure: change
 before_deploy:
   - cargo build --target $TARGET --release
-  - mkdir "tomlsort-${TRAVIS_TAG}-${TARGET}"
-  - cp target/$TARGET/release/tomlsort LICENSE.txt README.md "tomlsort-${TRAVIS_TAG}-${TARGET}"
-  - zip "tomlsort-${TRAVIS_TAG}-${TARGET}.zip" -r "tomlsort-${TRAVIS_TAG}-${TARGET}"
+  - zip "tomlsort-${TRAVIS_TAG}-${TARGET}.zip" "tomlsort-${TRAVIS_TAG}-${TARGET}"
 deploy:
   provider: releases
   api_key:
     secure: A+dz++OGYsqTF+oXSRphfsGmc5VkteQm/oB3nmo4rmV+MYnkXBhRTJmrTFmWjCUjtEYo6Dfn4xEQQ+uP8R3syVfERgIOgX/5Ip1VKjxbdjLiNjHvIao2nNTulDoZTIr/PEMaCyVmq/u14TWa9TBwI9UBYi5ylLc5ZmiMXZMP8Um0D4W4Vx/Z0+eLGihTILLIuaAjY1jxrSThcFu15Q72jURb5ZQyuZ8cP0SK/3Ub00fXVXANUifIEecozywMtkto45Wyz5Yk7IHASjpxKzCgUwCagQ4rLFxcIMfgUAjPPtr+h9SPTSL+Twjoibrjct8n7VMVdpoZkXC43k+AKhCzkyo1Evo3bgYSEz7dJuExgOFpH9c0uRpOwGebW7aC5EjYT5CbaJ6r0ziDTGcLoSaClg33rIkmwTRmxR/j6MY2xvAr6rfR9mPe7DFjPQAxW/UqX2u7f2G1jNvGEuQIG0sO/TvAqaQq50GJM0kwA5B42w+MF7I92SOH/5060Ic21sIoyxhtNYtECOZCR25chhWE4JwvNvzFDGIje+rCpcQxyGpf4amZDd2ZO9ldgCAvg5Det0LEOKC/tztT5lqoPeJMv2BYabqRqejkHrRxmy5Qy2hg6KZcr8YyJUqsvfYfBVGoXnttgIRsaPy4Ya9Kt/2/lqKBWToxRWIzXSJYw27PtWk=
-  file: tomlsort-${TRAVIS_TAG}-${TARGET}.gz
+  file: tomlsort-${TRAVIS_TAG}-${TARGET}.zip
   skip_cleanup: true
   on:
     repo: totem3/tomlsort
