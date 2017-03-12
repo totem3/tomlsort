@@ -27,7 +27,7 @@ notifications:
     on_failure: change
 before_deploy:
   - cargo build --target $TARGET --release
-  - zip "tomlsort-${TRAVIS_TAG}-${TARGET}.zip" "tomlsort-${TRAVIS_TAG}-${TARGET}"
+  - zip "tomlsort-${TRAVIS_TAG}-${TARGET}.zip" "target/${TARGET}/release/tomlsort"
 deploy:
   provider: releases
   api_key:
@@ -36,3 +36,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: totem3/tomlsort
+    tags: true
