@@ -4,7 +4,6 @@ extern crate toml;
 use std::cmp::Ordering;
 use std::io;
 use std::io::{Read, Write};
-use std::path::Path;
 use std::error;
 use std::fmt;
 use std::fs::{File, OpenOptions};
@@ -13,17 +12,13 @@ use clap::{Arg, App};
 
 #[derive(Debug)]
 enum CliError {
-    Io(io::Error),
     UnexpectedValue,
-    KeyNotFound,
 }
 
 impl fmt::Display for CliError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            &CliError::Io(ref err) => write!(f, "IO Error: {}", err),
             &CliError::UnexpectedValue => write!(f, "Unexpected Value Error"),
-            &CliError::KeyNotFound => write!(f, "Key not found"),
         }
     }
 }
@@ -31,15 +26,12 @@ impl fmt::Display for CliError {
 impl error::Error for CliError {
     fn description(&self) -> &str {
         match self {
-            &CliError::Io(ref err) => err.description(),
-            err @ &CliError::UnexpectedValue |
-            err @ &CliError::KeyNotFound => err.description(),
+            &CliError::UnexpectedValue => "Unexpected value given",
         }
     }
 
     fn cause(&self) -> Option<&error::Error> {
         match self {
-            &CliError::Io(ref err) => Some(err),
             _ => None,
         }
     }
@@ -101,7 +93,7 @@ fn main() {
             ::std::process::exit(1);
         }
     };
-    write!(out, "{}", toml);
+    let _ = write!(out, "{}", toml);
 }
 
 fn tomlsort<S: ?Sized>(v: &mut toml::Value, k: &S, k2: &S) -> Result<(), CliError>
